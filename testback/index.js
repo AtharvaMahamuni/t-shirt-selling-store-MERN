@@ -12,6 +12,10 @@ app.get('/login', (req, res) => {
     return res.send('You are using Login route');
 })
 
+app.get('/signup', (req, res) => {
+    return res.send('Feel free to signup');
+})
+
 app.get('/signout', (req, res) => {
     return res.send("You are signed out");
 })
