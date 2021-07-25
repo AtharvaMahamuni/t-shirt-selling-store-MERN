@@ -6,7 +6,23 @@ const port = 8000;
 
 app.get('/', (req, res) => {
     return res.send('This is home page');
-})
+});
+
+const admin = (req, res) => {
+    return res.send('This is admin page');
+};
+
+const isAdmin = (req, res, next) => {
+    console.log("admin is running");
+    next();
+}
+
+const isLoggedIn = (req, res, next) => {
+    console.log("User is logged in");
+    next();
+}
+
+app.get("/admin", isLoggedIn, isAdmin, admin);
 
 app.get('/login', (req, res) => {
     return res.send('You are using Login route');
