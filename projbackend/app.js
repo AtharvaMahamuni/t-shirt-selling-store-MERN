@@ -5,19 +5,14 @@ const express = require('express');
 
 const app = express();
 
-// const bodyParser = require('body-parser') //not required anymore we can use express
+const authRoutes = require("./routes/auth");
+
+// var bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-const authRoutes = require("./routes/auth");
 
 
-// My Routes
-app.use("/api", authRoutes);
-
-
-// PORT
-const port = process.env.PORT || 8000;
 
 // DB connection
 mongoose.connect(process.env.DATABASE, {
@@ -29,11 +24,21 @@ mongoose.connect(process.env.DATABASE, {
 });
 
 // Middlewares
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use(cookieParser());
 app.use(cors());
+
+
+
+// My Routes
+app.use("/api", authRoutes);
+
+
+// PORT
+const port = process.env.PORT || 8000;
+
 
 app.listen(port, () => {
     console.log(`App is running at ${port}`);
