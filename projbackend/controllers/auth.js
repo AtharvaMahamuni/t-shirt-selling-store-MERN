@@ -27,7 +27,6 @@ exports.signup = (req, res) => {
     });
 };
 
-
 exports.signin = (req, res) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
@@ -63,9 +62,37 @@ exports.signin = (req, res) => {
     });
 };
 
-
 exports.signout = (req, res) =>{
+    res.clearCookie("token");
     res.json({
-        message: "User signout"
+        message: "User signout successfully"
     });
 };
+
+
+// PROTECTED ROUTES we don't write next in this becuase it is already present in the expressJwt
+exports.isSignedIn = expressJwt({
+    secret: process.env.SECRET,
+    userProperty: "auth"
+});
+
+
+// CUSTOM MIDDLEWARES
+exports.isAuthenticated = (req, res, next) => {
+    let checker = req.profile && req.auth && req.profile._id === req.auth._id
+    if(!checker){
+        return res.status(403).json({
+            error: "ACCESS DENIED"
+        });
+    }
+    next();
+}
+
+exports.isAdmin = (req, res, next) => {
+    if(req.profile.role === 0){
+        return res.status(403).json({
+            error: "You are not ADMIN, Access denied"
+        });
+    }
+    next();
+}
