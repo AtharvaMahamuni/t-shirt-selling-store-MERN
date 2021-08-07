@@ -8,6 +8,7 @@ const app = express();
 // MY ROUTES
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 
 // var bodyParser = require('body-parser');
@@ -38,6 +39,7 @@ app.use(cors());
 // My Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
 
 
 // PORT
